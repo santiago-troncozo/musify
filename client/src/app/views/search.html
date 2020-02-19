@@ -1,0 +1,54 @@
+<div class="head-page">
+    <h1>{{title}}</h1>
+</div>
+
+<div class="input-group mb-3 searcher" style="display: flex; width: 75%; margin-left: 40px;">
+    <input #search="ngModel" [(ngModel)]="searchWords" type="text" class="form-control" placeholder="Buscar..."
+        aria-label="Recipient's username" aria-describedby="button-addon2" (keyup.enter)=goSearch()>
+    <button (click)="goSearch()" class="btn btn-outline-secondary" type="button" id="button-addon2">Buscar</button>
+     <span>Orden</span>
+    <select (change)="onChange($event.target.options.selectedIndex)" id="order" class="form-control" >
+        <option>Ascendente</option>
+        <option>Desendente</option>
+    </select>
+
+</div>
+
+
+
+<div *ngIf="ok">
+    <div class="conteiner-list">
+        <ul *ngIf="artists && artists.length>0">
+            <span class="title-search">Artistas</span>
+            <li *ngFor="let artist of artists" class="search-item">
+                <img class="image-search" src="{{ url + 'get-image-artist/' + artist.image }}" alt="">
+                <span class="title-item"><a [routerLink]="['/artista', artist._id]">{{artist.name}}</a></span>
+                <span class="title-item">Genero: {{artist.genre.description}}</span>
+            </li>
+        </ul>
+
+
+        <ul *ngIf="songs && songs.length>0">
+            <span class="title-search">Canciones</span>
+            <li *ngFor="let song of songs" class="search-item">
+
+                <a class="btn btn-success" (click)="startPlayer(song)" style="margin-right: 30px;">
+                    <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+                </a>
+                <span class="title-item">{{song.name}}</span>
+                <span class="title-item"><a [routerLink]="['/album', song.album._id]">Album: {{song.album.title}}</a></span>
+                <span class="title-item"><a [routerLink]="['/artista', song.album.artist._id]">Artista: {{song.album.artist.name}}</a></span>
+            </li>
+
+        </ul>
+
+        <ul *ngIf="albums && albums.length>0" style="padding-bottom: 20%">
+            <span class="title-search">Albums</span>
+            <li *ngFor="let album of albums" class="search-item">
+                <img class="image-search" src="{{url + 'get-image-album/' + album.image}}" alt="">
+                <span class="title-item"><a [routerLink]="['/album', album._id]">{{album.title}}</a></span>
+                <span class="title-item"><a [routerLink]="['/artista', album.artist._id]">Artista: {{album.artist.name}}</a></span>
+            </li>
+        </ul>
+    </div>
+</div>

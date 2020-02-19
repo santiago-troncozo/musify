@@ -1,0 +1,52 @@
+<div class="head-page" *ngIf="identity" style="margin-bottom: 30px;">
+    <h1>{{titulo}}</h1>
+</div>
+
+<div *ngIf="alertMessage">
+    <div class="alert alert-info">
+        {{alertMessage}}
+    </div>
+</div>
+
+
+<div id="artist-genre">
+    <div style="display: flex; align-items: center">
+        <span style=" margin-right: 30px; font-size: 18px;">Filtrar por genero </span>
+        <select class="form-control" (change)="onChange($event.target.value)" name="genreSelected" [(ngModel)]="genreSelected" style="width: 200px ;">
+            <option>Todos los generos</option>
+            <option *ngFor="let genre of genres">{{genre.description}}</option>
+        </select>
+    </div>
+</div>
+
+<div class="album-section">
+    <span id="title">Artistas</span>
+    <ul class="list-of-artists" *ngIf="artists && artists.length>0">
+        <li class="one-artist" *ngFor="let artist of artists">
+            <div style="display: flex; align-items: center;">
+                <div>
+                    <img src="{{ url + 'get-image-artist/' + artist.image }}">
+                    <br>
+                    <a [routerLink]="['/artista', artist._id]">{{artist.name}}</a>
+                </div>
+                <span class="glyphicon glyphicon-chevron-right" style="margin: 30px"></span>
+                <div>
+                    <ul class="list-of-albums">
+                        <li class="one-album" *ngFor="let album of artist.albums; let i=index">
+                            <div *ngIf = "i < 5">
+                                <img src="{{ url + 'get-image-album/' + album.image }}" alt="">
+                                <br>
+                                <a [routerLink]="['/album', album._id]">{{album.title}}</a>
+                            </div>
+                        </li>
+                        <div *ngIf = "artist.albums.length >5">
+                            <span  class ="glyphicon glyphicon-plus"></span>
+                            <a [routerLink]="['/artista', artist._id]"> Ver todos</a>
+                        </div>
+                    </ul>
+                </div>
+            </div>
+
+        </li>
+    </ul>
+</div>
